@@ -1,0 +1,194 @@
+legend:  <field type, modifiers> Field Name: drop down list <<questions that require attention>>
+#comment#
+
+
+The Service Task team is requesting a team-specific form for the left hand panel of ZenDesk tickets that more closely matches our workflow. 
+
+We'd like to start with a clone of the "Normal" form, and make modifications as noted:
+
+Existing fields - keep unless specified otherwise:
+Type
+-Priority -- remove
+Due Date
+Task Start Time
+Service Time
+Account Alias
+Service Task Hours
+-Impacted Product -- remove
+-Number of Impacted VMs -- remove
+QI Checkbox
+    Quality type
+    Team
+
+Fields to Add:
+Escalation Checkbox
+	Instance n {
+    <link to ticket> escalation ticket #the purpose of this is to link escalation tickets from the main ticket so they don't get lost or orphaned
+    	#master/child tickets exist, but that's not quite what we're aiming for. We're not quite sure yet what work needs to be done on escalation tickets after the main ticket is closed, though we'd like to leave room for automation to happen in the future.
+	}
+
+<drop down> Service Task: #future - allowing customers to pre-fill these fields from ctl.io/service-tasks/ when they submit the ticket
+    VM Import #source: https://www.ctl.io/knowledge-base/service-tasks/requirements-for-custom-imagevm-imports/
+		Instance n {
+			<text box, 6 characters> Name  
+			<text box - account, 4 characters> Account Alias 
+			<text box - group> Group
+			<text box> VLAN 
+			<drop down> Data Center
+			<checkbox> configure Control functionality?    
+				<text box> Password:  <<do we need this for Control registration?>>
+				<dropdown> OS: 
+					CentOS 5 | 64-bit
+					CentOS 6 | 64-bit
+					CentOS 7 | 64-bit
+					Debian 6 | 64-bit
+					Debian 7 | 64-bit
+					RedHat Enterprise Linux 5 | 64-bit
+					RedHat Enterprise Linux 6 | 64-bit
+					RedHat Enterprise Linux 7 | 64-bit
+					Ubuntu 12 LTS | 64-bit
+					Ubuntu 14 LTS | 64-bit
+					Windows 2008 R2 Enterprise | 64-bit
+					Windows 2008 R2 Standard | 64-bit
+					Windows 2008 R2 Datacenter Edition | 64-bit
+					Windows 2012 Datacenter Edition | 64-bit
+					Windows 2012 R2 Datacenter Edition | 64-bit
+		}
+	Deploy Dedicated Load Balancer
+		<drop down> Type of dedicated LB: Netscaler, F5, A10, <<any others?>>
+		<checkbox> HA enabled
+		<text box> Data center 
+		<text box> Vlan(s)
+		<text box> Management IP
+		<text box> VIP reservation range
+
+		case <Type> = Netscaler {
+			<drop down> License: 200, 1000
+			<radio button> Standard, Enterprise.
+		}
+	Deploy Custom OpenVPN Servers or Configurations
+		Instance n {
+			<text box> Data Center
+			<text box> Special Instructions
+		}	
+	Deploy Site-to-Site VPN Tunnels
+		instance n {
+			<text box> Data Center
+			<checbox> Is Form Complete?
+		}
+	Deploy VMWare Virtual Appliance
+		Instance n {
+			<drop down> Appliance Type: <<list appliance types>>
+			<text box> Data Center
+		}
+	Move Cloud Servers To Different Data Center
+		Instance n {
+			<text box> Origin DC
+			Inscance s {
+				<text box> Origin Server Name
+			}
+			<text box> Destination DC
+			Instance v {
+				<text box> Destination vlan
+			}
+		}
+	Useage Reporting
+		Instance n {
+			<text box> Report Scope
+			<text box> Special Instructions
+			<text box> Other Details
+		}
+	Disaster Recovery Testing
+		Instacnce n {
+			<text box> Data Center
+			Instance y: Servers to be Tested {
+				<text box> server
+			}
+		}
+	Create Cloud Servers
+		Instance n {
+			<text box, 6 characters> Server Base Name
+			<text box> Quantity
+			<drop down> Server Role: 
+				Domain controller
+				Database Server
+				Application server
+				Management server
+				web server
+			<drop down> Server OS:
+				CentOS 5 | 64-bit
+				CentOS 6 | 64-bit
+				CentOS 7 | 64-bit
+				Debian 6 | 64-bit
+				Debian 7 | 64-bit
+				RedHat Enterprise Linux 5 | 64-bit
+				RedHat Enterprise Linux 6 | 64-bit
+				RedHat Enterprise Linux 7 | 64-bit
+				Ubuntu 12 LTS | 64-bit
+				Ubuntu 14 LTS | 64-bit
+				Windows 2008 R2 Enterprise | 64-bit
+				Windows 2008 R2 Standard | 64-bit
+				Windows 2008 R2 Datacenter Edition | 64-bit
+				Windows 2012 Datacenter Edition | 64-bit
+				Windows 2012 R2 Datacenter Edition | 64-bit
+			<drop down> backup level: standard <default>, premium
+			<text box> Data Center 
+			<text box> Vlan 
+			<text box> Server group 
+			<radio buton, default> unmanaged
+			<radio buton> managed 
+		}
+	S*Install, Prepare or Configure Microsoft Software
+		Instance n {
+			<text box> SQL Instance name (or default):
+			<text box>  SA credentials: 
+			<text box> Database Engine Collation: 		
+		}
+	Develop Blueprints
+		<text box> Blueprint Title
+	MSSQL Database Mirroring
+		Instacne n { 
+			<text box> Domain
+			<text box> Server to be mirrired (Primary)
+			<text box> Stand-by Server
+			<text box> Database to be Mirrired
+			<text box> optional: desired SQL managment account name
+		}
+	MSSQL AlwaysOn Availability Groups
+		<text box> AlwaysOn Cluster name
+		<text box> AlwaysOn Cluster IP
+		<text box> Availability Group Name
+		<text box> Availability Group Listener IP
+		<text box> Availability Group Listener Subnet
+		<text box> Availability Group Listener Additional IP
+
+		Server Instance n {  #minimum 2 instances
+			<text box> Control Name
+			<text box> Hostname (Not FQDN)
+			<text box> IP address
+			<text box> Domain Name
+			<text box> SQL Instance Name
+			<text box> SQL Instance Master Key Password
+			<text box> Data Center
+		}
+	Add/Install Remote Desktop Services
+		<Text box> Server Name
+		<Text box> Number of licenses
+		<check box> The RD Services already installed
+	Conference Calls & Guided Troubleshooting
+		<text box> Problem Statement
+	NESSUS Security Vulnerability Scanning
+		<text box> Server Scope
+		<text box> Scan Paramaters
+    Direct Connect Setup
+		Instance n {
+			<text box> Data Center
+			<text box> CNS IP Network
+			<text box> CLC CRF VIP
+			<text box> CTS Managed Device VIP
+			<text box> CLC Reachable Networks
+			<text box> CNS Reachable Networks
+		}
+
+
+<checkbox> custom request #automation
